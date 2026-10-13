@@ -1,0 +1,119 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content-main">
+  <div class="portfolio-dashboard">
+    <div class="portfolio-dashboard__heading">
+      <div>
+        <h2>Welcome to your portfolio dashboard</h2>
+        <p>Manage the projects visitors see and keep up with messages from your contact form.</p>
+      </div>
+    </div>
+
+    <div class="portfolio-dashboard__stats">
+      <a class="portfolio-dashboard__stat" href="{% url 'admin:projects_project_changelist' %}">
+        <span class="portfolio-dashboard__label">All projects</span>
+        <strong>{{ project_count }}</strong>
+        <span>Manage portfolio projects</span>
+      </a>
+      <a class="portfolio-dashboard__stat" href="{% url 'admin:projects_project_changelist' %}?is_published__exact=1">
+        <span class="portfolio-dashboard__label">Published</span>
+        <strong>{{ published_project_count }}</strong>
+        <span>Visible on your website</span>
+      </a>
+      <a class="portfolio-dashboard__stat{% if unread_message_count %} portfolio-dashboard__stat--active{% endif %}" href="{% url 'admin:contact_contactmessage_changelist' %}?status__exact=unread">
+        <span class="portfolio-dashboard__label">Unread messages</span>
+        <strong>{{ unread_message_count }}</strong>
+        <span>Review contact submissions</span>
+      </a>
+    </div>
+
+    <div class="portfolio-dashboard__columns">
+      <section class="module">
+        <h2>Recent contact messages</h2>
+        {% if recent_messages %}
+          <table>
+            <thead><tr><th>Subject</th><th>From</th><th>Status</th><th>Received</th></tr></thead>
+            <tbody>
+              {% for message in recent_messages %}
+                <tr>
+                  <th><a href="{% url 'admin:contact_contactmessage_change' message.pk %}">{{ message.subject|truncatechars:38 }}</a></th>
+                  <td>{{ message.name|truncatechars:24 }}</td>
+                  <td><span class="portfolio-dashboard__badge{% if message.status == 'unread' %} portfolio-dashboard__badge--unread{% endif %}">{{ message.get_status_display }}</span></td>
+                  <td>{{ message.created_at|date:"M j, Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="portfolio-dashboard__empty">No messages yet. New contact form submissions will appear here.</p>
+        {% endif %}
+        <p class="portfolio-dashboard__action"><a href="{% url 'admin:contact_contactmessage_changelist' %}">View all messages →</a></p>
+      </section>
+
+      <section class="module">
+        <h2>Recently updated projects</h2>
+        {% if recent_projects %}
+          <table>
+            <thead><tr><th>Project</th><th>Website status</th><th>Updated</th></tr></thead>
+            <tbody>
+              {% for project in recent_projects %}
+                <tr>
+                  <th><a href="{% url 'admin:projects_project_change' project.pk %}">{{ project.title|truncatechars:32 }}</a></th>
+                  <td>{{ project.is_published|yesno:"Published,Draft" }}</td>
+                  <td>{{ project.updated_at|date:"M j, Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="portfolio-dashboard__empty">No projects yet. Add a project to get started.</p>
+        {% endif %}
+        <p class="portfolio-dashboard__action"><a href="{% url 'admin:projects_project_add' %}">+ Add a project</a> · <a href="{% url 'admin:projects_project_changelist' %}">View all projects →</a></p>
+      </section>
+    </div>
+  </div>
+
+  {% if app_list %}
+    <div class="module" id="app-list">
+      <table>
+        <caption>{% translate "Portfolio content" %}</caption>
+        {% for app in app_list %}
+          <tr class="model-{{ app.app_label }}">
+            <th scope="row"><a href="{{ app.app_url }}">{{ app.name }}</a></th>
+            <td>{% for model in app.models %}{% if model.add_url %}<a href="{{ model.add_url }}" class="addlink">{% translate "Add" %}</a>{% endif %}{% if model.admin_url %}<a href="{{ model.admin_url }}" class="changelink">{% translate "Change" %}</a>{% endif %}{% endfor %}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+  .portfolio-dashboard { margin-bottom: 28px; }
+  .portfolio-dashboard__heading { margin: 8px 0 20px; }
+  .portfolio-dashboard__heading h2 { margin: 0 0 6px; font-size: 22px; }
+  .portfolio-dashboard__heading p, .portfolio-dashboard__empty { color: var(--body-quiet-color, #666); }
+  .portfolio-dashboard__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+  .portfolio-dashboard__stat { display: flex; flex-direction: column; gap: 7px; min-height: 112px; padding: 18px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; background: var(--body-bg, #fff); color: var(--body-fg, #333); text-decoration: none; }
+  .portfolio-dashboard__stat:hover { border-color: var(--link-fg, #417690); }
+  .portfolio-dashboard__stat strong { font-size: 28px; line-height: 1; }
+  .portfolio-dashboard__label { font-weight: 700; }
+  .portfolio-dashboard__stat--active strong { color: #ba2121; }
+  .portfolio-dashboard__stat > span:last-child { color: var(--body-quiet-color, #666); font-size: 12px; }
+  .portfolio-dashboard__columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .portfolio-dashboard__columns .module { min-width: 0; }
+  .portfolio-dashboard__columns table { width: 100%; }
+  .portfolio-dashboard__columns th, .portfolio-dashboard__columns td { vertical-align: middle; }
+  .portfolio-dashboard__badge { display: inline-block; padding: 3px 8px; border-radius: 999px; background: var(--darkened-bg, #eee); font-size: 11px; }
+  .portfolio-dashboard__badge--unread { background: #fce8e6; color: #a12622; }
+  .portfolio-dashboard__empty, .portfolio-dashboard__action { padding: 12px; }
+  .portfolio-dashboard__action { margin: 0; font-weight: 600; }
+  @media (max-width: 900px) { .portfolio-dashboard__columns { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .portfolio-dashboard__stats { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}

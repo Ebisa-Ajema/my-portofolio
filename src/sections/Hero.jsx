@@ -1,16 +1,32 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
 import { words } from "../constants";
+import { apiBaseUrl, apiUrl } from "../lib/api";
 
 const HeroExperience = lazy(
   () => import("../components/models/hero_models/HeroExperience")
 );
 
 const Hero = () => {
+  const [resumeUrl, setResumeUrl] = useState("");
+
+  useEffect(() => {
+    if (!apiBaseUrl) return;
+    const controller = new AbortController();
+    fetch(apiUrl("resume/"), { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : null)
+      .then((resume) => {
+      setResumeUrl(resume?.available ? resume.download_url : "");
+    }).catch((error) => {
+      if (error.name !== "AbortError") console.warn("Resume status could not be refreshed from the API.");
+    });
+    return () => controller.abort();
+  }, []);
+
   useGSAP(() => {
     gsap.fromTo(
       ".hero-text h1",
@@ -50,13 +66,12 @@ const Hero = () => {
                   </span>
                 </span>
               </h1>
-              <h1>Web &amp; Business Systems</h1>
+              <h1>Web & Business Systems</h1>
               <h1>with Practical Tools</h1>
             </div>
 
             <p className="text-white-50 md:text-xl relative z-10 pointer-events-none">
-              Hi, I’m Ebisa. I build web applications and business systems with
-              React, Django, and Odoo.
+              Hi, I’m Ebisa. I build web applications and business systems with React, Django, and Odoo.
             </p>
 
             <Button
@@ -64,6 +79,12 @@ const Hero = () => {
               className="md:w-80 md:h-16 w-60 h-12"
               id="counter"
             />
+            {resumeUrl && <a
+              href={resumeUrl}
+              className="text-white-50 underline underline-offset-4 hover:text-white w-fit"
+            >
+              Download CV
+            </a>}
           </div>
         </header>
 

@@ -25,7 +25,12 @@ const NavBar = () => {
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
         <a href="#hero" className="logo">
-          Ebo
+          <img
+            src={`${import.meta.env.BASE_URL}images/logos/ebo.png`}
+            alt=""
+            className="size-9 rounded-full object-cover ring-2 ring-white/70 md:size-10"
+          />
+          <span>Ebo</span>
         </a>
 
         <nav className="desktop">

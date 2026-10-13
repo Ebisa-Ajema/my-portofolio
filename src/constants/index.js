@@ -155,6 +155,45 @@ const testimonials = [
   { name: "Gojo City Administration Platform", mentions: "React · Tailwind CSS · Django · PostgreSQL", review: "A city administration platform built with React, Tailwind CSS, Django, and PostgreSQL.", imgPath: asset("images/project3.png") },
 ];
 
+const portfolioProjects = [
+  {
+    id: "student-management-system",
+    slug: "student-management-system",
+    title: "Student Management System",
+    short_description: "Built with Django and Django Templates.",
+    description: "A student management system built with Django and Django Templates.",
+    technologies: ["Django", "Django Templates"],
+    image: asset("images/project1.png"),
+    github_url: "",
+    live_demo_url: "",
+    is_featured: true,
+  },
+  {
+    id: "advanced-sales-profit-report",
+    slug: "advanced-sales-profit-report",
+    title: "Advanced Sales Profit Report",
+    short_description: "A sales profit reporting project developed for Odoo 17.",
+    description: "A sales profit reporting project developed for Odoo 17.",
+    technologies: ["Odoo 17", "Python", "PostgreSQL"],
+    image: asset("images/project2.png"),
+    github_url: "",
+    live_demo_url: "",
+    is_featured: false,
+  },
+  {
+    id: "gojo-city-administration-platform",
+    slug: "gojo-city-administration-platform",
+    title: "Gojo City Administration Platform",
+    short_description: "A city administration platform built with React, Tailwind CSS, Django, and PostgreSQL.",
+    description: "A city administration platform built with React, Tailwind CSS, Django, and PostgreSQL.",
+    technologies: ["React", "Tailwind CSS", "Django", "PostgreSQL"],
+    image: asset("images/project3.png"),
+    github_url: "",
+    live_demo_url: "",
+    is_featured: false,
+  },
+];
+
 const socialImgs = [
   {
     name: "insta",
@@ -182,6 +221,7 @@ export {
   expCards,
   expLogos,
   testimonials,
+  portfolioProjects,
   socialImgs,
   techStackIcons,
   techStackImgs,

@@ -56,12 +56,12 @@ const TechStack = () => {
               <div className="tech-card-animated-bg" />
               <div className="tech-card-content">
                 <div className="tech-icon-wrapper">
-                  <img
+                  {techStackIcon.imgPath ? <img
                     src={techStackIcon.imgPath}
                     alt={`${techStackIcon.name} logo`}
                     className="h-24 w-24 object-contain"
                     loading="lazy"
-                  />
+                  /> : <span aria-hidden="true" className="flex h-20 w-20 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold text-white">{techStackIcon.name.slice(0, 2).toUpperCase()}</span>}
                 </div>
                 {/* The padding-x and w-full classes are used to add horizontal padding to the 
                     text and make it take up the full width of the component. */}
