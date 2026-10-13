@@ -10,9 +10,10 @@ import { apiBaseUrl, apiUrl } from "../lib/api";
 const HeroExperience = lazy(
   () => import("../components/models/hero_models/HeroExperience")
 );
+const staticResumeUrl = `${import.meta.env.BASE_URL}files/Ebisa-Ajema-CV.pdf`;
 
 const Hero = () => {
-  const [resumeUrl, setResumeUrl] = useState("");
+  const [resumeUrl, setResumeUrl] = useState(staticResumeUrl);
 
   useEffect(() => {
     if (!apiBaseUrl) return;
@@ -20,7 +21,7 @@ const Hero = () => {
     fetch(apiUrl("resume/"), { signal: controller.signal })
       .then((response) => response.ok ? response.json() : null)
       .then((resume) => {
-      setResumeUrl(resume?.available ? resume.download_url : "");
+      setResumeUrl(resume?.available ? resume.download_url : staticResumeUrl);
     }).catch((error) => {
       if (error.name !== "AbortError") console.warn("Resume status could not be refreshed from the API.");
     });
@@ -81,6 +82,7 @@ const Hero = () => {
             />
             {resumeUrl && <a
               href={resumeUrl}
+              download="Ebisa-Ajema-CV.pdf"
               className="text-white-50 underline underline-offset-4 hover:text-white w-fit"
             >
               Download CV
