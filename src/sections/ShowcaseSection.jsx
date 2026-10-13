@@ -49,7 +49,7 @@ const AppShowcase = () => {
         <div className="showcaselayout">
           <div ref={rydeRef} className="first-project-wrapper">
             <div className="image-wrapper">
-              <img src="/images/project1.png" alt="Student Management System" />
+              <img src={`${import.meta.env.BASE_URL}images/project1.png`} alt="Student Management System" />
             </div>
             <div className="text-content">
               <h2>
@@ -65,7 +65,7 @@ const AppShowcase = () => {
             <div className="project" ref={libraryRef}>
               <div className="image-wrapper bg-[#FFEFDB]">
                 <img
-                  src="/images/project2.png"
+                  src={`${import.meta.env.BASE_URL}images/project2.png`}
                   alt="Advanced Sales Profit Report"
                 />
               </div>
@@ -74,7 +74,7 @@ const AppShowcase = () => {
 
             <div className="project" ref={cityPlatformRef}>
               <div className="image-wrapper bg-[#FFE7EB]">
-                <img src="/images/project3.png" alt="Gojo City Administration Platform" />
+                <img src={`${import.meta.env.BASE_URL}images/project3.png`} alt="Gojo City Administration Platform" />
               </div>
               <h2>Gojo City Administration Platform</h2>
               <p className="text-white-50">React · Tailwind CSS · Django · PostgreSQL</p>
