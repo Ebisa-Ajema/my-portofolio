@@ -202,6 +202,85 @@ section {
     }
   }
 
+  @media (max-width: 1023px) {
+    .hero-layout {
+      height: auto;
+      min-height: 0;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 1.5rem;
+      margin-top: 7rem;
+      padding-bottom: 2rem;
+    }
+
+    .hero-layout > header {
+      position: relative;
+      z-index: 20;
+      width: 100%;
+      padding-inline: 1.25rem;
+    }
+
+    .hero-layout > figure {
+      position: relative;
+      z-index: 0;
+      width: 100%;
+      height: clamp(16rem, 68vw, 22rem);
+      flex: none;
+    }
+
+    .hero-3d-layout {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .app-showcase .showcaselayout,
+    .app-showcase .project-list-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .app-showcase .project-list-wrapper {
+      overflow: visible;
+    }
+
+    .app-showcase .first-project-wrapper,
+    .app-showcase .project-list-wrapper .project {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .app-showcase .image-wrapper,
+    .app-showcase .first-project-wrapper .image-wrapper,
+    .app-showcase .project-list-wrapper .image-wrapper {
+      position: relative;
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 16 / 10;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .app-showcase .image-wrapper img {
+      position: static;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .app-showcase h2,
+    .app-showcase p,
+    .app-showcase a {
+      overflow-wrap: anywhere;
+    }
+  }
+
   .cta-wrapper {
     @apply relative z-20 cursor-pointer;
   }
